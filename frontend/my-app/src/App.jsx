@@ -1,19 +1,45 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 function App() {
   const [city, setCity] = useState('')
   const [weather, setWeather] = useState(null)
 
-  const fetchWeather = async(city)=>{
+  const fetchWeather = async (arg) => {
     try {
-      const data = await fetch(`http://localhost:3005/api/weather/${city}`)
-      const weatherData = await data.json();
+      let url;
+      if (arg && typeof arg === 'object' && arg.lat != null && arg.lon != null) {
+        url = `http://localhost:3005/api/weather?lat=${encodeURIComponent(arg.lat)}&lon=${encodeURIComponent(arg.lon)}`;
+      } else {
+        const cityParam = arg || city || '';
+        url = `http://localhost:3005/api/weather/${encodeURIComponent(cityParam)}`;
+      }
+
+      const res = await fetch(url);
+      const weatherData = await res.json();
       setWeather(weatherData);
     } catch (error) {
       console.log('Failed to fetch weather data', error);
       setWeather({ error: 'Không thể lấy dữ liệu thời tiết' });
     }
   }
+
+  // On mount, try to get user's location and fetch weather
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude: lat, longitude: lon } = position.coords;
+        fetchWeather({ lat, lon });
+        console.log(lat,lon);
+      },
+      (err) => {
+        console.log('Geolocation failed or denied:', err.message);
+        // do nothing, user can search manually
+      },
+      { enableHighAccuracy: false, timeout: 5000 }
+    );
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">

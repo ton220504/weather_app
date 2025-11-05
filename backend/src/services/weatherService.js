@@ -1,13 +1,22 @@
 const axios = require('axios');
 
-exports.fetchWeather = async (city) => {
-    // support both names for the API key
+exports.fetchWeather = async (input) => {
+    // input can be a city string OR an object { lat, lon }
     const apiKey = process.env.WEATHER_API_KEY;
     if (!apiKey) throw new Error('OpenWeather API key not set');
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
-        city
-    )}&appid=${apiKey}&lang=vi&units=metric`;
+    let url;
+    if (input && typeof input === 'object' && input.lat != null && input.lon != null) {
+        const { lat, lon } = input;
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${encodeURIComponent(
+            lat
+        )}&lon=${encodeURIComponent(lon)}&appid=${apiKey}&lang=vi&units=metric`;
+    } else {
+        const city = input || '';
+        url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+            city
+        )}&appid=${apiKey}&lang=vi&units=metric`;
+    }
 
     try {
         const res = await axios.get(url);
