@@ -1,11 +1,76 @@
+import { useState } from "react"
 
 function App() {
+  const [city, setCity] = useState('')
+  const [weather, setWeather] = useState(null)
+
+  const fetchWeather = async(city)=>{
+    try {
+      const data = await fetch(`http://localhost:3005/api/weather/${city}`)
+      const weatherData = await data.json();
+      setWeather(weatherData);
+    } catch (error) {
+      console.log('Failed to fetch weather data', error);
+      setWeather({ error: 'Không thể lấy dữ liệu thời tiết' });
+    }
+  }
 
   return (
-    <>
-      <p className='text-red-400'>Hello world</p>
-      
-    </>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Nhập tên thành phố:</label>
+          <div className="flex">
+            <input 
+              className="flex-1 border-2 border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:border-blue-500" 
+              type="text" 
+              value={city} 
+              onChange={(e)=>setCity(e.target.value)}
+              placeholder="Ví dụ: Quy Nhơn"
+            />
+            <button 
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r transition duration-200"
+              onClick={()=>fetchWeather(city)}
+            >
+              Tìm
+            </button>
+          </div>
+        </div>
+
+        {weather && weather.error ? (
+          <div className="text-red-500 mt-4">{weather.error}</div>
+        ) : weather ? (
+          <div className="mt-4">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{weather.name}</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gray-50 p-3 rounded">
+                <p className="text-gray-600">Nhiệt độ</p>
+                <p className="text-xl font-semibold">{weather.temp}°C</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded">
+                <p className="text-gray-600">Độ ẩm</p>
+                <p className="text-xl font-semibold">{weather.humidity}%</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded">
+                <p className="text-gray-600">Thời tiết</p>
+                <p className="text-xl font-semibold">{weather.weather}</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded">
+                <p className="text-gray-600">Tốc độ gió</p>
+                <p className="text-xl font-semibold">{weather.wind} m/s</p>
+              </div>
+            </div>
+            {weather.icon && (
+              <img 
+                src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+                alt="Weather icon"
+                className="mx-auto mt-4"
+              />
+            )}
+          </div>
+        ) : null}
+      </div>
+    </div>
   )
 }
 
