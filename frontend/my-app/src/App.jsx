@@ -23,7 +23,7 @@ function App() {
     }
   }
 
-  // On mount, try to get user's location and fetch weather
+
   useEffect(() => {
     if (!navigator.geolocation) return;
 
@@ -35,7 +35,7 @@ function App() {
       },
       (err) => {
         console.log('Geolocation failed or denied:', err.message);
-        // do nothing, user can search manually
+
       },
       { enableHighAccuracy: false, timeout: 5000 }
     );
