@@ -72,19 +72,19 @@ function App() {
             <h2 className="text-2xl font-bold text-white mb-4">{weather.name}</h2>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/50 p-3 rounded">
-                <p className="text-gray-600">Nhiệt độ</p>
+                <p className="text-white">Nhiệt độ</p>
                 <p className="text-xl font-semibold">{weather.temp}°C</p>
               </div>
               <div className="bg-white/50 p-3 rounded">
-                <p className="text-gray-600">Độ ẩm</p>
+                <p className="text-white">Độ ẩm</p>
                 <p className="text-xl font-semibold">{weather.humidity}%</p>
               </div>
               <div className="bg-white/50 p-3 rounded">
-                <p className="text-gray-600">Thời tiết</p>
+                <p className="text-white">Thời tiết</p>
                 <p className="text-xl font-semibold">{weather.weather}</p>
               </div>
               <div className="bg-white/50 p-3 rounded">
-                <p className="text-gray-600">Tốc độ gió</p>
+                <p className="text-white">Tốc độ gió</p>
                 <p className="text-xl font-semibold">{weather.wind} m/s</p>
               </div>
             </div>
