@@ -2,7 +2,6 @@ const {fetchWeather} = require('../services/weatherService')
 
 exports.getWeatherByCity = async(req, res)=>{
     try {
-        // support either /api/weather/:city  OR /api/weather?lat=..&lon=..
         if (req.query.lat && req.query.lon) {
             const lat = req.query.lat;
             const lon = req.query.lon;

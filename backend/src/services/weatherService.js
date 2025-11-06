@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 exports.fetchWeather = async (input) => {
-    // input can be a city string OR an object { lat, lon }
     const apiKey = process.env.WEATHER_API_KEY;
     if (!apiKey) throw new Error('OpenWeather API key not set');
 
@@ -24,6 +23,7 @@ exports.fetchWeather = async (input) => {
         return {
             name: d.name,
             weather: Array.isArray(d.weather) && d.weather[0] ? d.weather[0].description : undefined,
+            main: Array.isArray(d.weather) && d.weather[0] ? d.weather[0].main : undefined,
             icon: Array.isArray(d.weather) && d.weather[0] ? d.weather[0].icon : undefined,
             temp: d.main && d.main.temp,
             humidity: d.main && d.main.humidity,
