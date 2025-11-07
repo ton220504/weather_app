@@ -5,6 +5,18 @@ function App() {
   const [city, setCity] = useState('')
   const [weather, setWeather] = useState(null)
 
+  //function remove VietNamese tones
+  function removeVNTones(str) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .trim()
+      .replace(/\s+/g, " ");
+  }
+
+  //function fetch weather
   const fetchWeather = async (arg) => {
     try {
       let url;
@@ -24,6 +36,13 @@ function App() {
     }
   }
 
+  //handle search
+
+  const handleSearch=()=>{
+    const formattedCity = removeVNTones(city).toLowerCase();
+    fetchWeather(formattedCity)
+  }
+
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -32,7 +51,7 @@ function App() {
       (position) => {
         const { latitude: lat, longitude: lon } = position.coords;
         fetchWeather({ lat, lon });
-        console.log(lat,lon);
+        console.log(lat, lon);
       },
       (err) => {
         console.log('Geolocation failed or denied:', err.message);
@@ -44,21 +63,21 @@ function App() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ThreeBackground/>
+      <ThreeBackground />
       <div className="max-w-md mx-auto mt-10 p-6 bg-white/10 rounded-lg shadow-lg border border-white/20">
         <div className="mb-4">
           <label className="block text-white text-sm font-bold mb-2">Nhập tên thành phố:</label>
           <div className="flex">
-            <input 
-              className="flex-1 border-2 border-gray-300 text-white rounded-l px-4 py-2 focus:outline-none focus:border-blue-500" 
-              type="text" 
-              value={city} 
-              onChange={(e)=>setCity(e.target.value)}
+            <input
+              className="flex-1 border-2 border-gray-300 text-white rounded-l px-4 py-2 focus:outline-none focus:border-blue-500"
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               placeholder="Ví dụ: Quy Nhơn"
             />
-            <button 
+            <button
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r transition duration-200"
-              onClick={()=>fetchWeather(city)}
+              onClick={handleSearch}
             >
               Tìm
             </button>
@@ -89,7 +108,7 @@ function App() {
               </div>
             </div>
             {weather.icon && (
-              <img 
+              <img
                 src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
                 alt="Weather icon"
                 className="mx-auto mt-4"
