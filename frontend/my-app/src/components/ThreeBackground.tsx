@@ -16,7 +16,7 @@ export const ThreeBackground = () => {
       1000
     );
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
@@ -24,16 +24,17 @@ export const ThreeBackground = () => {
     // Lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 2);
     scene.add(ambientLight);
-    
+
     const pointLight1 = new THREE.PointLight(0x3b82f6, 2, 100);
     pointLight1.position.set(5, 5, 5);
     scene.add(pointLight1);
-    
+
     const pointLight2 = new THREE.PointLight(0x8b5cf6, 2, 100);
     pointLight2.position.set(-5, -5, 5);
     scene.add(pointLight2);
 
     // Create geometric shapes
+    // Create geometric shapes - center all objects
     const geometry1 = new THREE.IcosahedronGeometry(1, 0);
     const material1 = new THREE.MeshPhongMaterial({
       color: 0x3b82f6,
@@ -42,10 +43,10 @@ export const ThreeBackground = () => {
       opacity: 0.6,
     });
     const mesh1 = new THREE.Mesh(geometry1, material1);
-    mesh1.position.set(-2, 0, 0);
+    mesh1.position.set(0, 0.6, 0);
     scene.add(mesh1);
 
-    const geometry2 = new THREE.OctahedronGeometry(1.2, 0);
+    const geometry2 = new THREE.OctahedronGeometry(1, 0);
     const material2 = new THREE.MeshPhongMaterial({
       color: 0x8b5cf6,
       wireframe: true,
@@ -53,10 +54,10 @@ export const ThreeBackground = () => {
       opacity: 0.6,
     });
     const mesh2 = new THREE.Mesh(geometry2, material2);
-    mesh2.position.set(2, 1, -1);
+    mesh2.position.set(1.3, -0.5, -1);
     scene.add(mesh2);
 
-    const geometry3 = new THREE.TorusGeometry(1, 0.4, 16, 100);
+    const geometry3 = new THREE.TorusGeometry(0.8, 0.3, 16, 100);
     const material3 = new THREE.MeshPhongMaterial({
       color: 0x06b6d4,
       wireframe: true,
@@ -64,8 +65,9 @@ export const ThreeBackground = () => {
       opacity: 0.6,
     });
     const mesh3 = new THREE.Mesh(geometry3, material3);
-    mesh3.position.set(0, -2, -2);
+    mesh3.position.set(-1.3, -0.7, -1.2);
     scene.add(mesh3);
+
 
     // Particles
     const particlesGeometry = new THREE.BufferGeometry();
@@ -87,7 +89,8 @@ export const ThreeBackground = () => {
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    camera.position.z = 5;
+    const isMobile = window.innerWidth < 768;
+    camera.position.z = isMobile ? 7 : 5;
 
     // Mouse interaction
     let mouseX = 0;
@@ -116,10 +119,10 @@ export const ThreeBackground = () => {
       // Rotate shapes
       mesh1.rotation.x += 0.005;
       mesh1.rotation.y += 0.005;
-      
+
       mesh2.rotation.x += 0.003;
       mesh2.rotation.y += 0.007;
-      
+
       mesh3.rotation.x += 0.004;
       mesh3.rotation.y += 0.006;
 

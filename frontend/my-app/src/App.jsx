@@ -43,7 +43,7 @@ function App() {
     fetchWeather(formattedCity)
   }
 
-
+  
   useEffect(() => {
     if (!navigator.geolocation) return;
 
