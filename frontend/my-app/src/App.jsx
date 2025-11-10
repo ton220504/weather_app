@@ -6,6 +6,7 @@ function App() {
   const [weather, setWeather] = useState(null)
 
   //function remove VietNamese tones
+  //chuyển đổi tiếng việt
   function removeVNTones(str) {
     return str
       .normalize("NFD")
@@ -17,6 +18,7 @@ function App() {
   }
 
   //function fetch weather
+  //hàm gọi thời tiết
   const fetchWeather = async (arg) => {
     try {
       let url;
