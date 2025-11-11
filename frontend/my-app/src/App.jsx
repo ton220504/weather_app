@@ -37,13 +37,11 @@ function App() {
   }
 
   //handle search
-
-  const handleSearch=()=>{
+  const handleSearch = () => {
     const formattedCity = removeVNTones(city).toLowerCase();
     fetchWeather(formattedCity)
   }
 
-  
   useEffect(() => {
     if (!navigator.geolocation) return;
 
