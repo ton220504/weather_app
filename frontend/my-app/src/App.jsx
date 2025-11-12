@@ -40,6 +40,10 @@ function App() {
 
   //handle search
   const handleSearch = () => {
+    if(city===""){
+      alert("Vui lòng nhập thành phố!");
+      return;
+    }
     const formattedCity = removeVNTones(city).toLowerCase();
     fetchWeather(formattedCity)
   }
@@ -85,7 +89,7 @@ function App() {
         </div>
 
         {weather && weather.error ? (
-          <div className="text-red-500 mt-4">{weather.error}</div>
+          <div className="text-red-500 mt-4">Không tìm thấy thành phố</div>
         ) : weather ? (
           <div className="mt-4">
             <h2 className="text-2xl font-bold text-white mb-4">{weather.name}</h2>
