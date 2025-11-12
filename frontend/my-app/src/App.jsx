@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { ThreeBackground } from "./components/ThreeBackground";
+import ButtonMenu from "./components/ButtonMenu";
 
 function App() {
   const [city, setCity] = useState('')
@@ -68,6 +69,7 @@ function App() {
   return (
     <div className="container mx-auto px-4 py-8">
       <ThreeBackground />
+      <ButtonMenu/>
       <div className="max-w-md mx-auto mt-10 p-6 bg-white/10 rounded-lg shadow-lg border border-white/20">
         <div className="mb-4">
           <label className="block text-white text-sm font-bold mb-2">Nhập tên thành phố:</label>
