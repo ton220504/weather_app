@@ -33,7 +33,6 @@ const ButtonMenu = () => {
                 className={`fixed top-0 left-0 h-full w-64 bg-white/90 backdrop-blur-xl shadow-lg z-50 transform transition-transform duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
             >
-                {/* Nút X nằm bên trong menu */}
                 <div className="p-4 flex justify-between items-center border-b border-gray-300">
                     <h2 className="text-2xl font-bold text-gray-800">Menu</h2>
                     <button
@@ -43,8 +42,6 @@ const ButtonMenu = () => {
                         <X size={24} className="text-gray-800" />
                     </button>
                 </div>
-
-                {/* Danh sách menu */}
                 <div className="p-6">
                     <ul className="space-y-3 text-gray-700 font-medium">
                         <li className="hover:text-blue-500 cursor-pointer">🏠 Trang chủ</li>
